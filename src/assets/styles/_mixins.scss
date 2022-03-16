@@ -1,0 +1,40 @@
+// Usage @include mq('sm', max)
+@mixin mq($width, $type: min) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+  }
+  @if $type == max {
+    $width: $width + 1px;
+  }
+  @if $type == min {
+    $width: $width - 1px;
+  }
+  @media only screen and (#{$type}-width: $width) {
+    @content
+  }
+}
+
+// Usage @include responsive-ratio(16,9) 16:9, 4:3, 1:2
+@mixin responsive-ratio($x, $y) {
+  $padding: unquote(( $y / $x ) * 100 + '%');
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: $padding;
+  padding-top: 30px;
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Usage @include line-clamp(4)
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
